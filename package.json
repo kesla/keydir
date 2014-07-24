@@ -1,6 +1,6 @@
 {
   "name": "keydir",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A sorted list of keys with support for level-* ranges",
   "main": "keydir.js",
   "scripts": {
