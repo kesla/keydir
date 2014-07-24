@@ -1,0 +1,11 @@
+{
+  "name": "keydir",
+  "version": "0.0.0",
+  "description": "A sorted list of keys with support for level-* ranges",
+  "main": "keydir.js",
+  "scripts": {
+    "test": "tape test.js"
+  },
+  "author": "David Björklund <david.bjorklund@gmail.com>",
+  "license": "MIT"
+}
