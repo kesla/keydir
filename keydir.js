@@ -41,15 +41,40 @@ Keydir.prototype.keys = function () {
   return this._keys
 }
 
-Keydir.prototype.range = function (opts) {
-  opts = opts || {}
-  var keys = this._keys.filter(ltgt.filter(opts))
+Keydir.prototype.range = function (options) {
+  options = options || {}
 
-  if (opts.reverse)
-    keys.reverse()
+  var lowerBound = ltgt.lowerBound(options)
+    , fromIdx = lowerBound ?
+        this._sortedIndexOf(lowerBound) : 0
+    , upperBound = ltgt.upperBound(options)
+      // toIdx - the id to slice to (exclusive)
+    , toIdx = upperBound ?
+        this._sortedIndexOf(upperBound) + 1 : this._keys.length
+    , keys
 
-  if (opts.limit && opts.limit !== -1)
-    keys = keys.slice(0, opts.limit)
+  if (ltgt.lowerBoundExclusive(options) && this._keys[fromIdx] === lowerBound)
+    fromIdx++
+
+  // behave correcly when the upperBound is between two keys
+  if (upperBound && this._keys[toIdx - 1] > upperBound)
+    toIdx--
+
+  if (ltgt.upperBoundExclusive(options) && this._keys[toIdx - 1] === upperBound)
+    toIdx--
+
+  if (options.limit && options.limit !== -1) {
+    if (options.reverse) {
+      fromIdx = Math.max(toIdx - options.limit, fromIdx)
+    } else {
+      toIdx = Math.min(fromIdx + options.limit, toIdx)
+    }
+  }
+
+  keys = this._keys.slice(fromIdx, toIdx)
+
+  if (options.reverse)
+    keys = keys.reverse()
 
   return keys
 }
