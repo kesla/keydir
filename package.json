@@ -7,5 +7,24 @@
     "test": "tape test.js"
   },
   "author": "David Björklund <david.bjorklund@gmail.com>",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "tape": "^2.13.4"
+  },
+  "dependencies": {
+    "ltgt": "^1.0.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kesla/keydir.git"
+  },
+  "keywords": [
+    "level",
+    "leveldb",
+    "ranges"
+  ],
+  "bugs": {
+    "url": "https://github.com/kesla/keydir/issues"
+  },
+  "homepage": "https://github.com/kesla/keydir"
 }
