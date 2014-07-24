@@ -100,5 +100,50 @@ test('range()', function (t) {
     , [ 'foo2', 'foo3', 'foo4' ]
   )
 
+  t.deepEqual(
+      dir.range({ gt: 'foo1', limit: 3 })
+    , [ 'foo2', 'foo3', 'foo4' ]
+  )
+
+  t.deepEqual(
+      dir.range({ lte: 'foo4', limit: 3, reverse: true })
+    , [ 'foo4', 'foo3', 'foo2' ]
+  )
+
+  t.deepEqual(
+      dir.range({ lt: 'foo5', limit: 3, reverse: true })
+    , [ 'foo4', 'foo3', 'foo2' ]
+  )
+
+  t.deepEqual(
+      dir.range({ gt: 'foo2', lt: 'foo5', limit: 3})
+    , [ 'foo3', 'foo4' ]
+  )
+
+  t.deepEqual(
+      dir.range({ gt: 'foo2', lt: 'foo5', limit: 3, reverse: true})
+    , [ 'foo4', 'foo3' ]
+  )
+
+  t.deepEqual(
+      dir.range({ lt: 'foo1.5' })
+    , [ 'foo1' ]
+  )
+
+  t.deepEqual(
+      dir.range({ lte: 'foo1.5' })
+    , [ 'foo1' ]
+  )
+
+  t.deepEqual(
+      dir.range({ gt: 'foo4.5' })
+    , [ 'foo5' ]
+  )
+
+  t.deepEqual(
+      dir.range({ gte: 'foo4.5' })
+    , [ 'foo5' ]
+  )
+
   t.end()
 })
