@@ -1,12 +1,12 @@
 var ltgt = require('ltgt')
 
-  , Keydir = function () {
-      if (!(this instanceof Keydir))
-        return new Keydir()
+function Keydir() {
+  if (!(this instanceof Keydir))
+    return new Keydir()
 
-      this._keys = []
-      this._len = 0
-    }
+  this._keys = []
+  this._len = 0
+}
 
 Keydir.prototype._sortedIndexOf = function (key) {
   var low = 0
