@@ -6,6 +6,10 @@ A sorted list of keys with support for level-* ranges
 
 [![NPM](https://nodei.co/npm-dl/keydir.png)](https://nodei.co/npm/keydir/)
 
+## Kudos
+
+The starting point for this module was extracted from the memdown-module (https://npmjs.org/package/memdown).
+
 ## Installation
 
 ```
