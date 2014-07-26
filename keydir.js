@@ -41,9 +41,7 @@ Keydir.prototype.keys = function () {
   return this._keys
 }
 
-Keydir.prototype.range = function (options) {
-  options = options || {}
-
+Keydir.prototype._rangeIndexes = function (options) {
   var lowerBound = ltgt.lowerBound(options)
     , fromIdx = lowerBound ?
         this._sortedIndexOf(lowerBound) : 0
@@ -51,7 +49,6 @@ Keydir.prototype.range = function (options) {
       // toIdx - the id to slice to (exclusive)
     , toIdx = upperBound ?
         this._sortedIndexOf(upperBound) + 1 : this._keys.length
-    , keys
 
   if (ltgt.lowerBoundExclusive(options) && this._keys[fromIdx] === lowerBound)
     fromIdx++
@@ -70,8 +67,14 @@ Keydir.prototype.range = function (options) {
       toIdx = Math.min(fromIdx + options.limit, toIdx)
     }
   }
+  return { from: fromIdx, to: toIdx }
+}
 
-  keys = this._keys.slice(fromIdx, toIdx)
+Keydir.prototype.range = function (options) {
+  options = options || {}
+
+  var indexes = this._rangeIndexes(options)
+    , keys = this._keys.slice(indexes.from, indexes.to)
 
   if (options.reverse)
     keys = keys.reverse()
