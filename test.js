@@ -86,6 +86,11 @@ test('range()', function (t) {
   )
 
   t.deepEqual(
+      dir.range({ limit: -1 })
+    , [ 'foo1', 'foo2', 'foo3', 'foo4', 'foo5' ]
+  )
+
+  t.deepEqual(
       dir.range({ reverse: true })
     , [ 'foo5', 'foo4', 'foo3', 'foo2', 'foo1' ]
   )
