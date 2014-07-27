@@ -66,6 +66,16 @@ test('del()', function (t) {
   t.end()
 })
 
+test('clear()', function (t) {
+  var dir = keydir()
+
+  dir.put('beep')
+  dir.put('boop')
+  dir.clear()
+  t.deepEqual(dir.keys(), [])
+  t.end()
+})
+
 test('range()', function (t) {
   var dir = keydir()
 

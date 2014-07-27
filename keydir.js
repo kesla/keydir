@@ -48,6 +48,11 @@ Keydir.prototype.del = function (key) {
   }
 }
 
+Keydir.prototype.clear = function () {
+  this._keys.length = 0
+  this._len = 0
+}
+
 Keydir.prototype.keys = function () {
   return this._keys
 }
