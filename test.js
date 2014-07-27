@@ -163,6 +163,18 @@ test('range()', function (t) {
     , transformArray([ 'foo5' ])
   )
 
+  dir.clear()
+
+  dir.put('00')
+  dir.put('01')
+  dir.put('02')
+  dir.put('03')
+
+  t.deepEqual(
+      dir.range({ lt: '0' })
+    , []
+  )
+
   t.end()
 })
 

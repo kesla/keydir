@@ -76,7 +76,7 @@ Keydir.prototype._rangeIndexes = function (options) {
     toIdx--
   }
 
-  if (ltgt.upperBoundExclusive(options) &&
+  else if (ltgt.upperBoundExclusive(options) &&
       ltgt.compare(this._keys[toIdx - 1], upperBound) === 0) {
     toIdx--
   }
