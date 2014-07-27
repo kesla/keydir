@@ -7,6 +7,12 @@ var ltgt = require('ltgt')
       this._keys = []
       this._len = 0
     }
+  , ensureBuffer = function (value) {
+      if (value && !Buffer.isBuffer(value))
+        value = new Buffer(value)
+
+      return value
+    }
 
 Keydir.prototype._sortedIndexOf = function (key) {
   var low = 0
@@ -15,23 +21,28 @@ Keydir.prototype._sortedIndexOf = function (key) {
 
   while (low < high) {
     mid = (low + high) >>> 1
-    this._keys[mid] < key ? low = mid + 1 : high = mid
+    ltgt.compare(this._keys[mid], key) < 0 ? low = mid + 1 : high = mid
   }
   return low
 }
 
 Keydir.prototype.put = function (key) {
+  key = ensureBuffer(key)
+
   var ix = this._sortedIndexOf(key)
 
-  if (ix >= this.len || this._keys[ix] !== key) {
+  if (ix >= this._len || ltgt.compare(this._keys[ix], key) !== 0) {
     this._keys.splice(ix, 0, key)
     this._len++
   }
 }
 
 Keydir.prototype.del = function (key) {
+  key = ensureBuffer(key)
+
   var ix = this._sortedIndexOf(key)
-  if (this._keys[ix] == key) {
+
+  if (ltgt.compare(this._keys[ix], key) === 0) {
     this._keys.splice(ix, 1)
     this._len--;
   }
@@ -42,23 +53,28 @@ Keydir.prototype.keys = function () {
 }
 
 Keydir.prototype._rangeIndexes = function (options) {
-  var lowerBound = ltgt.lowerBound(options)
+  var lowerBound = ensureBuffer(ltgt.lowerBound(options))
     , fromIdx = lowerBound ?
         this._sortedIndexOf(lowerBound) : 0
-    , upperBound = ltgt.upperBound(options)
+    , upperBound = ensureBuffer(ltgt.upperBound(options))
       // toIdx - the id to slice to (exclusive)
     , toIdx = upperBound ?
         this._sortedIndexOf(upperBound) + 1 : this._keys.length
 
-  if (ltgt.lowerBoundExclusive(options) && this._keys[fromIdx] === lowerBound)
+  if (ltgt.lowerBoundExclusive(options) &&
+      ltgt.compare(this._keys[fromIdx], lowerBound) === 0) {
     fromIdx++
+  }
 
   // behave correcly when the upperBound is between two keys
-  if (upperBound && this._keys[toIdx - 1] > upperBound)
+  if (upperBound && ltgt.compare(this._keys[toIdx - 1], upperBound) > 0) {
     toIdx--
+  }
 
-  if (ltgt.upperBoundExclusive(options) && this._keys[toIdx - 1] === upperBound)
+  if (ltgt.upperBoundExclusive(options) &&
+      ltgt.compare(this._keys[toIdx - 1], upperBound) === 0) {
     toIdx--
+  }
 
   if (options.limit && options.limit !== -1) {
     if (options.reverse) {
@@ -67,6 +83,7 @@ Keydir.prototype._rangeIndexes = function (options) {
       toIdx = Math.min(fromIdx + options.limit, toIdx)
     }
   }
+
   return { from: fromIdx, to: toIdx }
 }
 
