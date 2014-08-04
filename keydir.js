@@ -48,6 +48,14 @@ Keydir.prototype.del = function (key) {
   }
 }
 
+Keydir.prototype.has = function (key) {
+  key = ensureBuffer(key)
+
+  var ix = this._sortedIndexOf(key)
+
+  return !!this._keys[ix] && ltgt.compare(this._keys[ix], key) === 0
+}
+
 Keydir.prototype.clear = function () {
   this._keys.length = 0
   this._len = 0

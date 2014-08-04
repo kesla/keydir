@@ -178,6 +178,21 @@ test('range()', function (t) {
   t.end()
 })
 
+test('has()', function (t) {
+  var dir = keydir()
+
+  t.equal(dir.has('beep'), false)
+  dir.put('beep')
+  dir.put('been')
+  t.equal(dir.has('beeo'), false)
+  t.equal(dir.has('beep'), true)
+  t.equal(dir.has('beeq'), false)
+  dir.del('beep')
+  t.equal(dir.has('beep'), false)
+
+  t.end()
+})
+
 test('Buffers & Strings', function (t) {
   var dir = keydir()
 
