@@ -175,6 +175,11 @@ test('range()', function (t) {
     , []
   )
 
+  t.deepEqual(
+      dir.range({ limit: 0 })
+    , []
+  )
+
   t.end()
 })
 

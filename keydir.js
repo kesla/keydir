@@ -89,7 +89,7 @@ Keydir.prototype._rangeIndexes = function (options) {
     toIdx--
   }
 
-  if (options.limit && options.limit !== -1) {
+  if (typeof(options.limit) === 'number' && options.limit !== -1) {
     if (options.reverse) {
       fromIdx = Math.max(toIdx - options.limit, fromIdx)
     } else {
